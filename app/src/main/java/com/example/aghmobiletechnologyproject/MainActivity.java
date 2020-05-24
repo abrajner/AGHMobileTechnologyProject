@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     List<MyListData> myListData = new ArrayList<MyListData>();
     MyListAdapter adapter = new MyListAdapter(myListData);
 
@@ -36,14 +38,18 @@ public class MainActivity extends AppCompatActivity {
 
         button_add_table.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                myListData.add(new MyListData(nameOfNewTable.getText().toString()));
-
+                String newTableName = nameOfNewTable.getText().toString();
+                myListData.add(new MyListData(newTableName));
+                moveToTableView(v, newTableName);
             }
         });
 
-
     }
 
-
+    public void moveToTableView(View view, String tableName){
+        Intent intent = new Intent(this, MainTableActivity.class);
+        String message = tableName;
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
 }
