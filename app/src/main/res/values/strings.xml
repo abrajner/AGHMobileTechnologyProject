@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Workflow</string>
+    <string name="add_button">Add</string>
+    <string name="new_table_text">New table name…</string>
 </resources>
