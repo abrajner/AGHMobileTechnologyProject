@@ -15,7 +15,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     List<MyListData> myListData = new ArrayList<MyListData>();
-    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.tablesList);
     MyListAdapter adapter = new MyListAdapter(myListData);
 
 
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Button button_add_table = findViewById(R.id.buttonAddTable);
         final EditText nameOfNewTable = findViewById(R.id.nameOfNewTable); //.getText().toString()
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.tablesList);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 myListData.add(new MyListData(nameOfNewTable.getText().toString()));
-
 
             }
         });
