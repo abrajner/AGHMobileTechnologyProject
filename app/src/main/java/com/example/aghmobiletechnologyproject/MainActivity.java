@@ -17,8 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     List<MyListData> myListData = new ArrayList<MyListData>();
-    MyListAdapter adapter = new MyListAdapter(myListData);
-
+    MyListAdapter adapter = new MyListAdapter(myListData, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

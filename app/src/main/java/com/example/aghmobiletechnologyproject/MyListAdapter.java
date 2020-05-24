@@ -2,6 +2,7 @@ package com.example.aghmobiletechnologyproject;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,17 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import static com.example.aghmobiletechnologyproject.MainActivity.EXTRA_MESSAGE;
+
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
     private List<MyListData> listdata;
+    private MainActivity mainActivity;
 
     // RecyclerView recyclerView;
-    public MyListAdapter(List<MyListData> listdata) {
+    public MyListAdapter(List<MyListData> listdata, MainActivity mainActivity) {
         this.listdata = listdata;
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -36,10 +41,10 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "click on item: " + myListData.getDescription(), Toast.LENGTH_LONG).show();
+                mainActivity.moveToTableView(view, myListData.getDescription());
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -56,5 +61,4 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }
     }
-
 }
