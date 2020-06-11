@@ -26,7 +26,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     public TaskAdapter(Context context, ArrayList<Task> taskList){
         this.taskList = taskList;
-        activity =  (ItemClicked) context;
+        this.activity =  (ItemClicked) context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -37,11 +37,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             super(itemView);
 
             taskName = itemView.findViewById(R.id.task_name);
-            relativeLayout = itemView.findViewById(R.id.relativeLayout);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.onItemClicked(taskList.indexOf((Task) itemView.getTag()));
+                    activity.onItemClicked(taskList.indexOf(v.getTag()));
                 }
             });
         }
@@ -56,23 +55,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemView.setTag(taskList.get(position));
 
-//        holder.taskName.setText(taskList.get(position).getTaskName());
-
-        final Task myListData = taskList.get(position);
         holder.taskName.setText(taskList.get(position).getTaskName());
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click on item: " + myListData.getTaskName(), Toast.LENGTH_LONG).show();
-            }
-        });
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return taskList.size();
     }
 }

@@ -13,7 +13,7 @@ public class ApplicationClass extends Application{
         super.onCreate();
 
         listOfTasks = new ArrayList<>();
-        listOfTasks.add(new Task("Task1", 1));
+        listOfTasks.add(new Task("Task1Task1Task1Task1Task1Task1Task1Task1Task1Task1Task1Task1", 1));
         listOfTasks.add(new Task("Task2", 2));
         listOfTasks.add(new Task("Task3", 3));
     }
