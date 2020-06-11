@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class MainTableActivity extends AppCompatActivity {
+public class MainTableActivity extends AppCompatActivity implements TaskAdapter.ItemClicked  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,5 +14,10 @@ public class MainTableActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+    }
+
+    @Override
+    public void onItemClicked(int index) {
+
     }
 }
