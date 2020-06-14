@@ -9,6 +9,13 @@
         android:supportsRtl="true"
         android:name=".ApplicationClass"
         android:theme="@style/AppTheme">
+        <activity android:name=".TaskDetailsDialog"
+            android:parentActivityName=".MainTableActivity">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainTableActivity" />
+        </activity>
         <activity android:name=".MainTableActivity"
             android:parentActivityName=".MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->

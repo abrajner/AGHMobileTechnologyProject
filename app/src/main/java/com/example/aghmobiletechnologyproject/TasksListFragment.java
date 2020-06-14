@@ -46,4 +46,8 @@ public class TasksListFragment extends Fragment {
         myAdapter = new TaskAdapter(this.getActivity(), ApplicationClass.listOfTasks);
         recyclerView.setAdapter(myAdapter);
     }
+
+    public void notifyDataChanged(){
+        myAdapter.notifyDataSetChanged();
+    }
 }

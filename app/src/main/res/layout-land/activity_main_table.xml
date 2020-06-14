@@ -7,7 +7,7 @@
     tools:context=".MainTableActivity">
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/list_frag"
         android:name="com.example.aghmobiletechnologyproject.TasksListFragment"
         android:layout_width="250dp"
         android:layout_height="match_parent"
@@ -28,12 +28,12 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment"
+        app:layout_constraintStart_toEndOf="@+id/list_frag"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <fragment
-            android:id="@+id/fragment2"
+            android:id="@+id/task_detail_frag"
             android:name="com.example.aghmobiletechnologyproject.TaskDetailsFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -43,7 +43,7 @@
             tools:layout="@layout/fragment_task_details" />
 
         <fragment
-            android:id="@+id/fragment3"
+            android:id="@+id/add_task_frag"
             android:name="com.example.aghmobiletechnologyproject.AddNewTaskFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
