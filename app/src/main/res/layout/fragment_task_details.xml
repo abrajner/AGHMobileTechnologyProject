@@ -53,17 +53,16 @@
         app:layout_constraintTop_toBottomOf="@+id/chosen_task_name">
 
         <LinearLayout
-            android:id="@+id/buckets_list"
+            android:id="@+id/table_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical">
+            <RadioGroup
+                android:id="@+id/table_list_radio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"/>
 
-            <CheckBox
-                android:id="@+id/buckets_list_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="CheckBox" />
         </LinearLayout>
     </ScrollView>
 

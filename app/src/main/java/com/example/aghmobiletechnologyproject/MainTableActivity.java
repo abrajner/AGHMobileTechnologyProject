@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +22,7 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
     TextView taskName;
     Button buttonAddNewTask;
     EditText newTaskName;
-    public static TasksListFragment listFragment;
+    private TasksListFragment listFragment;
     private FragmentManager fragmentManager;
 
     @Override
@@ -31,6 +35,10 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
 
         this.fragmentManager = this.getSupportFragmentManager();
         listFragment = (TasksListFragment) fragmentManager.findFragmentById(R.id.list_frag);
+
+        if(!(getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)){
+            TaskDetailsFragment.getRadioButtonListOfTables(findViewById(R.id.table_list), this);
+        }
 
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -58,6 +66,7 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
             this.taskName.setText(ApplicationClass.listOfTasks.get(index).getTaskName());
         }else{
             displayDialogWindowWithTaskDetails(index);
+            listFragment.notifyDataChanged();
         }
         //TO-DO set list of available tables from database for task
     }

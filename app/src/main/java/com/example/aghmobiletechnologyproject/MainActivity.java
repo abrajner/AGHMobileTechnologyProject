@@ -16,8 +16,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-    List<MyListData> myListData = new ArrayList<MyListData>();
-    MyListAdapter adapter = new MyListAdapter(myListData, this);
+    MyListAdapter adapter = new MyListAdapter(ApplicationClass.listOfTables, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +31,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        myListData.add(new MyListData("Table 1"));
-
         button_add_table.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String newTableName = nameOfNewTable.getText().toString();
-                myListData.add(new MyListData(newTableName));
-                moveToTableView(v, newTableName);
+                ApplicationClass.listOfTables.add(new MyListData(newTableName));
+                notifyDataChanged();
             }
         });
 
@@ -50,5 +46,9 @@ public class MainActivity extends AppCompatActivity {
         String message = tableName;
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+
+    public void notifyDataChanged(){
+        adapter.notifyDataSetChanged();
     }
 }
