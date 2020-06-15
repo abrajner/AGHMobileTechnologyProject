@@ -12,9 +12,13 @@ import android.widget.EditText;
 
 import com.example.aghmobiletechnologyproject.model.TableClass;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static final String EXTRA_MESSAGE_TABLE_NAME = "com.example.myfirstapp.MESSAGE_TABLE_NAME";
+    public static final String EXTRA_MESSAGE_TABLE_INDEX = "com.example.myfirstapp.MESSAGE_TABLE_INDEX";
+
     MyListAdapter adapter = new MyListAdapter(ApplicationClass.listOfTableClasses, this);
 
     @Override
@@ -33,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         button_add_table.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String newTableName = nameOfNewTable.getText().toString();
-                TableClass table = new TableClass(newTableName);
-                table.save();
+                ApplicationClass.addNewTable(newTableName);
                 notifyDataChanged();
                 nameOfNewTable.setText(null);
             }
@@ -42,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void moveToTableView(View view, String tableName){
+    public void moveToTableView(View view, String tableName, int index){
         Intent intent = new Intent(this, MainTableActivity.class);
-        String message = tableName;
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(EXTRA_MESSAGE_TABLE_NAME, tableName);
+        intent.putExtra(EXTRA_MESSAGE_TABLE_INDEX, index);
         startActivity(intent);
     }
 

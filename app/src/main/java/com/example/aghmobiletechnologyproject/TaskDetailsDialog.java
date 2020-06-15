@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class TaskDetailsDialog extends AppCompatActivity {
     Context context;
+    int tableIndex;
+    String tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -22,7 +24,9 @@ public class TaskDetailsDialog extends AppCompatActivity {
         setContentView(R.layout.dialog_window_task_details_layout);
         context = this;
         Intent intent = getIntent();
-        final int chosenTaskIndex = Integer.parseInt(intent.getStringExtra(MainTableActivity.TASK_DETAILS_MESSAGE));
+        final int chosenTaskIndex = intent.getIntExtra(MainTableActivity.TASK_DETAILS_MESSAGE, 0);
+        this.tableIndex = intent.getIntExtra(MainActivity.EXTRA_MESSAGE_TABLE_INDEX, 0);
+        this.tableName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE_TABLE_NAME);
 
         Button deleteButton = (Button) findViewById(R.id.delete_button);
         Button saveButton = (Button) findViewById(R.id.save_button);
@@ -34,7 +38,7 @@ public class TaskDetailsDialog extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ApplicationClass.listOfTasks.remove(chosenTaskIndex);
+                ApplicationClass.removeTask(chosenTaskIndex);
                 backToParentActivity();
             }
         });
@@ -47,6 +51,7 @@ public class TaskDetailsDialog extends AppCompatActivity {
                     Toast.makeText(TaskDetailsDialog.this, "No changes detected", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    ApplicationClass.updateTask(chosenTaskIndex, radioButton.getText().toString());
                     Toast.makeText(TaskDetailsDialog.this, "Table changed to " + radioButton.getText(), Toast.LENGTH_SHORT).show();
                     backToParentActivity();
                 }
@@ -56,6 +61,8 @@ public class TaskDetailsDialog extends AppCompatActivity {
 
     public void backToParentActivity(){
         Intent intent = new Intent(this, MainTableActivity.class);
+        intent.putExtra(MainActivity.EXTRA_MESSAGE_TABLE_INDEX, tableIndex);
+        intent.putExtra(MainActivity.EXTRA_MESSAGE_TABLE_NAME, tableName);
         startActivity(intent);
     }
 }

@@ -33,14 +33,14 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final TableClass tableClass = listdata.get(position);
         holder.textView.setText(listdata.get(position).getName());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click on item: " + tableClass.getName(), Toast.LENGTH_LONG).show();
-                mainActivity.moveToTableView(view, tableClass.getName());
+                Toast.makeText(view.getContext(),  tableClass.getName(), Toast.LENGTH_LONG).show();
+                mainActivity.moveToTableView(view, tableClass.getName(), position);
             }
         });
     }

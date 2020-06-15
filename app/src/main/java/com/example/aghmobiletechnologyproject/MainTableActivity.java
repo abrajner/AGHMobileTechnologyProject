@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.example.aghmobiletechnologyproject.model.Task;
 
+import java.util.ArrayList;
+
 public class MainTableActivity extends AppCompatActivity implements TaskAdapter.ItemClicked  {
     public static String TASK_DETAILS_MESSAGE;
     TextView taskName;
@@ -26,6 +28,8 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
     Button buttonSaveChanges;
     Button buttonDeleteTask;
     Context context;
+    int tableIndex;
+    String tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +41,9 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
         this.newTaskName = findViewById(R.id.new_task_name);
         this.buttonSaveChanges = findViewById(R.id.save_button);
         this.buttonDeleteTask = findViewById(R.id.delete_button);
-
         this.fragmentManager = this.getSupportFragmentManager();
+        ApplicationClass.listOfTasks = new ArrayList<>();
+
         listFragment = (TasksListFragment) fragmentManager.findFragmentById(R.id.list_frag);
 
         if(!(getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)){
@@ -59,7 +64,9 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
         }
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        this.tableIndex = intent.getIntExtra(MainActivity.EXTRA_MESSAGE_TABLE_INDEX, 0);
+        this.tableName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE_TABLE_NAME);
+        ApplicationClass.getAllTasksFromTable(tableName);
 
         buttonAddNewTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +75,7 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
                     Toast.makeText(MainTableActivity.this, "Please enter task name", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Task task = new Task(newTaskName.getText().toString().trim());
-                    task.save();
+                    ApplicationClass.addNewTask(newTaskName.getText().toString().trim(), tableName);
                     Toast.makeText(MainTableActivity.this, "Task added", Toast.LENGTH_SHORT).show();
                     newTaskName.setText(null);
                     listFragment.notifyDataChanged();
@@ -86,7 +92,7 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
             buttonDeleteTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ApplicationClass.listOfTasks.remove(index);
+                    ApplicationClass.removeTask(index);
                     listFragment.notifyDataChanged();
                 }
             });
@@ -99,21 +105,23 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
                         Toast.makeText(MainTableActivity.this, "No changes detected", Toast.LENGTH_SHORT).show();
                     }
                     else{
+                        ApplicationClass.updateTask(index, radioButton.getText().toString());
                         listFragment.notifyDataChanged();
                         Toast.makeText(MainTableActivity.this, "Table changed to " + radioButton.getText(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }else{
-            displayDialogWindowWithTaskDetails(index);
+            displayDialogWindowWithTaskDetails(index, this.tableIndex, this.tableName);
             listFragment.notifyDataChanged();
         }
     }
 
-    public void displayDialogWindowWithTaskDetails(int index){
+    public void displayDialogWindowWithTaskDetails(int index, int tableIndex, String tableName){
         Intent intent = new Intent(this, TaskDetailsDialog.class);
-        String message = String.valueOf(index);
-        intent.putExtra(TASK_DETAILS_MESSAGE, message);
+        intent.putExtra(TASK_DETAILS_MESSAGE, index);
+        intent.putExtra(MainActivity.EXTRA_MESSAGE_TABLE_INDEX, tableIndex);
+        intent.putExtra(MainActivity.EXTRA_MESSAGE_TABLE_NAME, tableName);
         startActivity(intent);
     }
 }

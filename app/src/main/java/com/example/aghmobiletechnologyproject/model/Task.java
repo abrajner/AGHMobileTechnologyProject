@@ -8,15 +8,12 @@ import com.orm.dsl.Table;
 public class Task extends SugarRecord {
     @Column(name = "task_name")
     private String taskName;
-    @Column(name = "task_id")
-    private Integer taskId;
 
     @Column(name = "table_name")
     private String tableName;
 
-    public Task(String taskName, Integer taskId, String tableName) {
+    public Task(String taskName, String tableName) {
         this.taskName = taskName;
-        this.taskId = taskId;
         this.tableName = tableName;
     }
 
@@ -34,15 +31,6 @@ public class Task extends SugarRecord {
     public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
-
-    public Integer getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
-    }
-
 
     public String getTableName() {
         return tableName;
