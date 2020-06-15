@@ -2,7 +2,6 @@ package com.example.aghmobiletechnologyproject;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +9,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import com.example.aghmobiletechnologyproject.model.TableClass;
 
-import static com.example.aghmobiletechnologyproject.MainActivity.EXTRA_MESSAGE;
+import java.util.List;
 
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
-    private List<MyListData> listdata;
+    private List<TableClass> listdata;
     private MainActivity mainActivity;
 
     // RecyclerView recyclerView;
-    public MyListAdapter(List<MyListData> listdata, MainActivity mainActivity) {
+    public MyListAdapter(List<TableClass> listdata, MainActivity mainActivity) {
         this.listdata = listdata;
         this.mainActivity = mainActivity;
     }
@@ -35,13 +34,13 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final MyListData myListData = listdata.get(position);
-        holder.textView.setText(listdata.get(position).getDescription());
+        final TableClass tableClass = listdata.get(position);
+        holder.textView.setText(listdata.get(position).getName());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click on item: " + myListData.getDescription(), Toast.LENGTH_LONG).show();
-                mainActivity.moveToTableView(view, myListData.getDescription());
+                Toast.makeText(view.getContext(), "click on item: " + tableClass.getName(), Toast.LENGTH_LONG).show();
+                mainActivity.moveToTableView(view, tableClass.getName());
             }
         });
     }

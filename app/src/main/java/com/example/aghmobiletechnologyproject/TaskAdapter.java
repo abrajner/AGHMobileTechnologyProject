@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.aghmobiletechnologyproject.model.Task;
 
 import java.util.ArrayList;
 
@@ -55,9 +56,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemView.setTag(taskList.get(position));
+        Task task = taskList.get(position);
 
-        holder.taskName.setText(taskList.get(position).getTaskName());
+        holder.itemView.setTag(task);
+        holder.taskName.setText(task.getTaskName());
     }
 
     @Override

@@ -7,6 +7,6 @@
     <string name="delete_button">Delete</string>
     <string name="new_task_name">Type new task name...</string>
 
-    <string name="new_table_text">New table name…</string>
+    <string name="new_table_text">New tableClass name…</string>
 
 </resources>

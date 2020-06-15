@@ -9,17 +9,18 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TaskDetailsDialog extends AppCompatActivity {
-    private TasksListFragment listFragment;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_window_task_details_layout);
-
+        context = this;
         Intent intent = getIntent();
         final int chosenTaskIndex = Integer.parseInt(intent.getStringExtra(MainTableActivity.TASK_DETAILS_MESSAGE));
 
@@ -41,7 +42,14 @@ public class TaskDetailsDialog extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backToParentActivity();
+                RadioButton radioButton = TaskDetailsFragment.getSelectedValue(findViewById(R.id.table_list), context);
+                if(radioButton == null){
+                    Toast.makeText(TaskDetailsDialog.this, "No changes detected", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(TaskDetailsDialog.this, "Table changed to " + radioButton.getText(), Toast.LENGTH_SHORT).show();
+                    backToParentActivity();
+                }
             }
         });
     }

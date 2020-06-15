@@ -10,13 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.aghmobiletechnologyproject.model.TableClass;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-    MyListAdapter adapter = new MyListAdapter(ApplicationClass.listOfTables, this);
+    MyListAdapter adapter = new MyListAdapter(ApplicationClass.listOfTableClasses, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
         button_add_table.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String newTableName = nameOfNewTable.getText().toString();
-                ApplicationClass.listOfTables.add(new MyListData(newTableName));
+                TableClass table = new TableClass(newTableName);
+                table.save();
                 notifyDataChanged();
+                nameOfNewTable.setText(null);
             }
         });
 
