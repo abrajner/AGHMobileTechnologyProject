@@ -15,7 +15,6 @@ import com.example.aghmobiletechnologyproject.model.TableClass;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     public static final String EXTRA_MESSAGE_TABLE_NAME = "com.example.myfirstapp.MESSAGE_TABLE_NAME";
     public static final String EXTRA_MESSAGE_TABLE_INDEX = "com.example.myfirstapp.MESSAGE_TABLE_INDEX";
 

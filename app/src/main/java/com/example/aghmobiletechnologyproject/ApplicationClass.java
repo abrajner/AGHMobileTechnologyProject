@@ -1,12 +1,12 @@
 package com.example.aghmobiletechnologyproject;
 
 import android.app.Application;
-import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 
 import com.example.aghmobiletechnologyproject.model.TableClass;
 import com.example.aghmobiletechnologyproject.model.Task;
 import com.orm.SugarContext;
-import com.orm.dsl.Table;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -18,12 +18,15 @@ public class ApplicationClass extends Application{
     public static ArrayList<Task> listOfTasks = new ArrayList<>();
     public static ArrayList<TableClass> listOfTableClasses = new ArrayList<>();
     TableClass tables;
+    InternetConnectionCheck internetConnectionCheck = new InternetConnectionCheck();
 
     @Override
     public void onCreate() {
         super.onCreate();
         SugarContext.init(getApplicationContext());
 
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(internetConnectionCheck, filter);
         tables = new TableClass();
         List<TableClass> tableList = TableClass.listAll(TableClass.class);
         for (int i = 0; i< tableList.size(); i++){
@@ -31,6 +34,7 @@ public class ApplicationClass extends Application{
             listOfTableClasses.add(tables);
         }
     }
+
 
     public static void addNewTask(String taskName, String tableName){
         Task task = new Task(taskName, tableName);
@@ -69,6 +73,7 @@ public class ApplicationClass extends Application{
     @Override
     public void onTerminate() {
         super.onTerminate();
+        unregisterReceiver(internetConnectionCheck);
         SugarContext.terminate();
     }
 }
