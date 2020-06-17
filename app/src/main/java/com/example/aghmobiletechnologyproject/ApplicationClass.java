@@ -65,44 +65,12 @@ public class ApplicationClass extends Application{
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    static
-    class GetAllTableData extends AsyncTask<Void, Task, Void>{
+    public static void getAllTasksFromTable(String tableName){
         List<Task> tasksList;
-        String tableName;
-        Context context;
+        tasksList = Select.from(Task.class)
+                .where(Condition.prop("table_name").eq(tableName)).list() ;
 
-        public GetAllTableData(String tableName, Context context){
-            this.tableName = tableName;
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            tasksList = Select.from(Task.class)
-        .where(Condition.prop("table_name").eq(tableName)).list() ;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            for (int i = 0; i< tasksList.size(); i++){
-                publishProgress(tasksList.get(i));
-        }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Task... values) {
-            super.onProgressUpdate(values);
-            listOfTasks.add(values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(context, "All table data get successfully from database", Toast.LENGTH_SHORT).show();
-        }
+        listOfTasks.addAll(tasksList);
     }
 
     public static void addNewTask(String taskName, String tableName){
