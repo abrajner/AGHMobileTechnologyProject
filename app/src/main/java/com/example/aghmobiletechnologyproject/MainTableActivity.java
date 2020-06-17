@@ -66,7 +66,7 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
         Intent intent = getIntent();
         this.tableIndex = intent.getIntExtra(MainActivity.EXTRA_MESSAGE_TABLE_INDEX, 0);
         this.tableName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE_TABLE_NAME);
-        ApplicationClass.getAllTasksFromTable(tableName);
+        new ApplicationClass.GetAllTableData(tableName, this).execute();
 
         buttonAddNewTask.setOnClickListener(new View.OnClickListener() {
             @Override

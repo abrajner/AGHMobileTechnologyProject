@@ -1,8 +1,12 @@
 package com.example.aghmobiletechnologyproject;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.example.aghmobiletechnologyproject.model.TableClass;
 import com.example.aghmobiletechnologyproject.model.Task;
@@ -17,7 +21,6 @@ public class ApplicationClass extends Application{
 
     public static ArrayList<Task> listOfTasks = new ArrayList<>();
     public static ArrayList<TableClass> listOfTableClasses = new ArrayList<>();
-    TableClass tables;
     InternetConnectionCheck internetConnectionCheck = new InternetConnectionCheck();
 
     @Override
@@ -27,14 +30,80 @@ public class ApplicationClass extends Application{
 
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(internetConnectionCheck, filter);
-        tables = new TableClass();
-        List<TableClass> tableList = TableClass.listAll(TableClass.class);
-        for (int i = 0; i< tableList.size(); i++){
-            tables = tableList.get(i);
-            listOfTableClasses.add(tables);
+
+        new GetAllTables().execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class GetAllTables extends AsyncTask<Void, TableClass, Void>{
+        List<TableClass> tableList;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            tableList = TableClass.listAll(TableClass.class);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (int i = 0; i< tableList.size(); i++){
+                publishProgress(tableList.get(i));
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(TableClass... values) {
+            super.onProgressUpdate(values);
+            listOfTableClasses.add(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(ApplicationClass.this, "All tables get successfully from database", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
+    static
+    class GetAllTableData extends AsyncTask<Void, Task, Void>{
+        List<Task> tasksList;
+        String tableName;
+        Context context;
+
+        public GetAllTableData(String tableName, Context context){
+            this.tableName = tableName;
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            tasksList = Select.from(Task.class)
+        .where(Condition.prop("table_name").eq(tableName)).list() ;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (int i = 0; i< tasksList.size(); i++){
+                publishProgress(tasksList.get(i));
+        }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Task... values) {
+            super.onProgressUpdate(values);
+            listOfTasks.add(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(context, "All table data get successfully from database", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public static void addNewTask(String taskName, String tableName){
         Task task = new Task(taskName, tableName);
@@ -48,16 +117,6 @@ public class ApplicationClass extends Application{
         table.save();
     }
 
-    public static void getAllTasksFromTable(String tableName){
-        Task tasks = new Task();
-        List<Task> tasksList = Select.from(Task.class)
-                .where(Condition.prop("table_name").eq(tableName)).list();
-        for (int i = 0; i< tasksList.size(); i++){
-            tasks = tasksList.get(i);
-            listOfTasks.add(tasks);
-        }
-    }
-
     public static void removeTask(int id){
         Task task = listOfTasks.get(id);
         task.delete();
@@ -69,6 +128,7 @@ public class ApplicationClass extends Application{
         task.setTableName(newTableName);
         task.save();
     }
+
 
     @Override
     public void onTerminate() {
