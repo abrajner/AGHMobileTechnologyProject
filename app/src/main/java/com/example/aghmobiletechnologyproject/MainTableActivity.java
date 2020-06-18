@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class MainTableActivity extends AppCompatActivity implements TaskAdapter.ItemClicked  {
     public static String TASK_DETAILS_MESSAGE;
     TextView taskName;
+    TextView chosenTableName;
     Button buttonAddNewTask;
     EditText newTaskName;
     private TasksListFragment listFragment;
@@ -41,6 +42,7 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
         this.newTaskName = findViewById(R.id.new_task_name);
         this.buttonSaveChanges = findViewById(R.id.save_button);
         this.buttonDeleteTask = findViewById(R.id.delete_button);
+        this.chosenTableName = findViewById(R.id.chosen_table_name);
         this.fragmentManager = this.getSupportFragmentManager();
         ApplicationClass.listOfTasks = new ArrayList<>();
 
@@ -66,6 +68,7 @@ public class MainTableActivity extends AppCompatActivity implements TaskAdapter.
         Intent intent = getIntent();
         this.tableIndex = intent.getIntExtra(MainActivity.EXTRA_MESSAGE_TABLE_INDEX, 0);
         this.tableName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE_TABLE_NAME);
+        this.chosenTableName.setText(this.tableName);
         ApplicationClass.getAllTasksFromTable(tableName);
 
         buttonAddNewTask.setOnClickListener(new View.OnClickListener() {

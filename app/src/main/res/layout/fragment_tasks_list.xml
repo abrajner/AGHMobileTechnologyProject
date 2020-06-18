@@ -6,6 +6,13 @@
     android:orientation="vertical"
     tools:context=".TasksListFragment">
 
+    <TextView
+        android:id="@+id/chosen_table_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_of_tasks"
         android:layout_width="match_parent"
