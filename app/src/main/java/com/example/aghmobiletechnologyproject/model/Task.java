@@ -17,9 +17,6 @@ public class Task extends SugarRecord {
         this.tableName = tableName;
     }
 
-    public Task() {
-    }
-
     public Task(String taskName) {
         this.taskName = taskName;
     }
