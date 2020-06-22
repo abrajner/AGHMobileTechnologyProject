@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.widget.Toast;
 
+import androidx.core.net.ConnectivityManagerCompat;
+
 public class InternetConnectionCheck extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
